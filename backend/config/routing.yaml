@@ -1,0 +1,12 @@
+weights:
+  quality: 0.55
+  cost: 0.30
+  latency: 0.15
+
+baseline_model: mock-strong
+
+# Prefer cheap mock models when no provider keys are present.
+prefer_mock_when_no_keys: true
+
+timeout_seconds: 20
+max_fallback_attempts: 3
