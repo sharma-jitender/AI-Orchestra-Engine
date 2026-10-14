@@ -1,102 +1,90 @@
 models:
-  - id: mock-fast
-    provider: mock
-    display_name: Mock Fast (cheap)
-    input_cost_per_1k: 0.0001
-    output_cost_per_1k: 0.0002
-    typical_latency_ms: 80
+  - id: llama-3.1-8b-instant
+    provider: groq
+    display_name: Llama 3.1 8B Instant
+    api_model: llama-3.1-8b-instant
+    input_cost_per_1k: 0.00005
+    output_cost_per_1k: 0.00008
+    typical_latency_ms: 300
     strengths:
-      qa: 0.62
-      code: 0.40
-      summarization: 0.70
-      reasoning: 0.35
-      creative: 0.55
-    enabled: true
-
-  - id: mock-strong
-    provider: mock
-    display_name: Mock Strong (baseline)
-    input_cost_per_1k: 0.005
-    output_cost_per_1k: 0.015
-    typical_latency_ms: 420
-    strengths:
-      qa: 0.92
-      code: 0.90
-      summarization: 0.88
-      reasoning: 0.95
-      creative: 0.90
-    enabled: true
-
-  - id: mock-code
-    provider: mock
-    display_name: Mock Code Specialist
-    input_cost_per_1k: 0.001
-    output_cost_per_1k: 0.003
-    typical_latency_ms: 180
-    strengths:
-      qa: 0.50
-      code: 0.93
-      summarization: 0.45
-      reasoning: 0.70
-      creative: 0.30
-    enabled: true
-
-  - id: gpt-4o-mini
-    provider: openai
-    display_name: GPT-4o mini
-    api_model: gpt-4o-mini
-    input_cost_per_1k: 0.00015
-    output_cost_per_1k: 0.0006
-    typical_latency_ms: 500
-    strengths:
-      qa: 0.82
+      qa: 0.86
       code: 0.80
-      summarization: 0.85
-      reasoning: 0.72
+      summarization: 0.87
+      reasoning: 0.76
       creative: 0.80
     enabled: true
 
-  - id: gpt-4o
-    provider: openai
-    display_name: GPT-4o
-    api_model: gpt-4o
-    input_cost_per_1k: 0.0025
-    output_cost_per_1k: 0.01
-    typical_latency_ms: 900
+  - id: llama-3.3-70b-versatile
+    provider: groq
+    display_name: Llama 3.3 70B Versatile
+    api_model: llama-3.3-70b-versatile
+    input_cost_per_1k: 0.00059
+    output_cost_per_1k: 0.00079
+    typical_latency_ms: 650
     strengths:
-      qa: 0.94
-      code: 0.92
-      summarization: 0.93
-      reasoning: 0.94
-      creative: 0.92
+      qa: 0.95
+      code: 0.94
+      summarization: 0.94
+      reasoning: 0.95
+      creative: 0.93
     enabled: true
 
-  - id: claude-3-5-haiku
-    provider: anthropic
-    display_name: Claude 3.5 Haiku
-    api_model: claude-3-5-haiku-20241022
-    input_cost_per_1k: 0.0008
-    output_cost_per_1k: 0.004
-    typical_latency_ms: 600
-    strengths:
-      qa: 0.80
-      code: 0.78
-      summarization: 0.90
-      reasoning: 0.82
-      creative: 0.88
-    enabled: true
-
-  - id: llama3.2
+  - id: llama3.2:1b
     provider: ollama
-    display_name: Llama 3.2 (local)
-    api_model: llama3.2
+    display_name: Llama 3.2 1B (local)
+    api_model: llama3.2:1b
     input_cost_per_1k: 0.0
     output_cost_per_1k: 0.0
-    typical_latency_ms: 1200
+    typical_latency_ms: 1800
     strengths:
-      qa: 0.68
-      code: 0.60
-      summarization: 0.65
-      reasoning: 0.58
-      creative: 0.70
+      qa: 0.48
+      code: 0.40
+      summarization: 0.46
+      reasoning: 0.38
+      creative: 0.42
+    enabled: true
+
+  - id: nvidia-llama-3.1-8b
+    provider: nvidia
+    display_name: Llama 3.1 8B Instruct (NVIDIA)
+    api_model: meta/llama-3.1-8b-instruct
+    input_cost_per_1k: 0.00005
+    output_cost_per_1k: 0.00008
+    typical_latency_ms: 500
+    strengths:
+      qa: 0.84
+      code: 0.80
+      summarization: 0.85
+      reasoning: 0.75
+      creative: 0.79
+    enabled: true
+
+  - id: nvidia-llama-3.3-70b
+    provider: nvidia
+    display_name: Llama 3.3 70B Instruct (NVIDIA)
+    api_model: meta/llama-3.3-70b-instruct
+    input_cost_per_1k: 0.00059
+    output_cost_per_1k: 0.00079
+    typical_latency_ms: 900
+    strengths:
+      qa: 0.95
+      code: 0.94
+      summarization: 0.94
+      reasoning: 0.95
+      creative: 0.93
+    enabled: true
+
+  - id: nvidia-nemotron-70b
+    provider: nvidia
+    display_name: Llama 3.1 Nemotron 70B Instruct
+    api_model: nvidia/llama-3.1-nemotron-70b-instruct
+    input_cost_per_1k: 0.0002
+    output_cost_per_1k: 0.0006
+    typical_latency_ms: 1000
+    strengths:
+      qa: 0.94
+      code: 0.91
+      summarization: 0.93
+      reasoning: 0.96
+      creative: 0.88
     enabled: true

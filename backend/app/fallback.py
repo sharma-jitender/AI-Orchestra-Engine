@@ -27,7 +27,9 @@ def _call(spec: ModelSpec, prompt: str) -> AdapterResult:
     if adapter is None:
         raise AdapterError(f"no adapter for provider {spec.provider}")
     timeout = load_routing().timeout_seconds
-    return adapter.complete(api_model=spec.api_model, prompt=prompt, timeout=timeout)
+    return adapter.complete(
+        api_model=spec.api_model, prompt=prompt, timeout=timeout
+    )
 
 
 def complete_with_fallback(
@@ -61,31 +63,45 @@ def complete_with_fallback(
             return CompletionOutcome(
                 spec=spec,
                 result=result,
-                est_cost=estimate_cost(spec, result.tokens_in, result.tokens_out),
+                est_cost=estimate_cost(
+                    spec, result.tokens_in, result.tokens_out
+                ),
                 fallback_used=i > 0,
                 fallback_from=first_id if i > 0 else None,
                 ranked_ids=ranked_ids,
             )
-        except AdapterError as exc:
+        except Exception as exc:
             last_error = str(exc)
             continue
-    if settings.allow_mock_fallback and (not attempts or attempts[0].provider != "mock"):
+    if settings.allow_mock_fallback and (
+        not attempts or attempts[0].provider != "mock"
+    ):
         from app.registry import load_models
 
-        mock = next(m for m in load_models().values() if m.provider == "mock" and m.enabled)
-        result = _call(mock, prompt)
-        return CompletionOutcome(
-            spec=mock,
-            result=result,
-            est_cost=estimate_cost(mock, result.tokens_in, result.tokens_out),
-            fallback_used=True,
-            fallback_from=first_id,
-            ranked_ids=ranked_ids,
+        mock = next(
+            (
+                model
+                for model in load_models().values()
+                if model.provider == "mock" and model.enabled
+            ),
+            None,
         )
+        if mock is not None:
+            result = _call(mock, prompt)
+            return CompletionOutcome(
+                spec=mock,
+                result=result,
+                est_cost=estimate_cost(mock, result.tokens_in, result.tokens_out),
+                fallback_used=True,
+                fallback_from=first_id,
+                ranked_ids=ranked_ids,
+            )
     empty = AdapterResult(output="", tokens_in=0, tokens_out=0, latency_ms=0)
     from app.registry import load_models
 
-    failed_spec = attempts[0] if attempts else next(iter(load_models().values()))
+    failed_spec = (
+        attempts[0] if attempts else next(iter(load_models().values()))
+    )
     return CompletionOutcome(
         spec=failed_spec,
         result=empty,

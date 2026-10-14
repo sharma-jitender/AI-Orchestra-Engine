@@ -14,9 +14,11 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./orchestrator.sqlite"
     openai_api_key: str = ""
     anthropic_api_key: str = ""
+    groq_api_key: str = ""
+    nvidia_api_key: str = ""
     ollama_base_url: str = "http://localhost:11434"
-    allow_mock_fallback: bool = True
-    baseline_model: str = "mock-strong"
+    allow_mock_fallback: bool = False
+    baseline_model: str = "llama-3.3-70b-versatile"
     models_config_path: Path = ROOT / "config" / "models.yaml"
     routing_config_path: Path = ROOT / "config" / "routing.yaml"
     eval_fixture_path: Path = ROOT / "fixtures" / "eval_prompts.json"

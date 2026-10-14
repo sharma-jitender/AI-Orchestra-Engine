@@ -185,7 +185,7 @@ export default function App() {
           <div className="topbar-actions">
             <span className="status-indicator"><i /> System ready</span>
             <button className="primary-button" disabled={busy} onClick={() => void onEval()}>
-              <span aria-hidden="true">↻</span> {busy ? "Working…" : "Run baseline eval"}
+              <span aria-hidden="true">↻</span> {busy ? "Working…" : "Run eval"}
             </button>
           </div>
         </header>
@@ -285,7 +285,9 @@ export default function App() {
                       <div className="assistant-avatar"><span /></div>
                       <div className="assistant-content">
                         <div className="assistant-name">Orchestrator</div>
-                        <pre className="assistant-output">{completion.output}</pre>
+                        <pre className="assistant-output">
+                          {completion.success ? completion.output : "Add GROQ_API_KEY or start Ollama"}
+                        </pre>
                         <div className="message-chips">
                           <span className="meta-chip model-chip">{completion.model}</span>
                           <span className="meta-chip">${fmt(completion.est_cost, 5)}</span>
@@ -312,7 +314,7 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-                <p className="composer-disclaimer">Mock adapters are active when provider credentials are unavailable.</p>
+                <p className="composer-disclaimer">Responses come from Groq or an installed local Ollama model.</p>
               </div>
             </section>
           )}

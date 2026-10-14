@@ -23,8 +23,10 @@ services:
       DATABASE_URL: postgresql+psycopg://orchestrator:orchestrator@postgres:5432/orchestrator
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY:-}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
-      ALLOW_MOCK_FALLBACK: "true"
+      ALLOW_MOCK_FALLBACK: "false"
     depends_on:
       postgres:
         condition: service_healthy

@@ -3,10 +3,9 @@ weights:
   cost: 0.30
   latency: 0.15
 
-baseline_model: mock-strong
+baseline_model: llama-3.3-70b-versatile
 
-# Prefer cheap mock models when no provider keys are present.
-prefer_mock_when_no_keys: true
+prefer_mock_when_no_keys: false
 
 timeout_seconds: 20
 max_fallback_attempts: 3

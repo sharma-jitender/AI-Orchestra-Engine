@@ -1,6 +1,6 @@
 # LLM Orchestration Engine
 
-Middleware between an app and multiple models. A FastAPI gateway classifies each prompt, scores models on quality/cost/latency, calls a uniform adapter, falls back on failure, and logs everything to PostgreSQL. A React dashboard shows routing mix and a **baseline comparison** (always-strong model vs routed policy).
+Middleware between an app and multiple models. A FastAPI gateway classifies each prompt, scores models on quality/cost/latency, calls a uniform adapter, falls back on failure, and logs requests to SQLite by default or PostgreSQL via `DATABASE_URL`. A React dashboard shows routing mix and a **baseline comparison** (always-strong model vs routed policy).
 
 This is Solution 1 from the architecture discussion: a scoring monolith plus an eval harness. No ML classifier, no bandit, no per-request judge model.
 
@@ -33,7 +33,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. Click **Run baseline eval** — that is the proof. No API keys required; mock adapters are used until `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` are set. Ollama is optional (`OLLAMA_BASE_URL`).
+Open http://localhost:5173. Click **Run eval** — that is the proof. No API keys required; mock adapters are used when no provider is configured. Groq, NVIDIA NIM, OpenAI, and Anthropic use their respective API key environment variables. Ollama is optional (`OLLAMA_BASE_URL`).
 
 Full stack: `docker compose up --build`.
 
@@ -44,9 +44,9 @@ Full stack: `docker compose up --build`.
 | Classifier | Rules + optional `task_type` hint (`qa`, `code`, `summarization`, `reasoning`, `creative`) |
 | Registry | `backend/config/models.yaml` |
 | Router | `score = w_q * strength - w_c * cost_norm - w_l * latency_norm` (`routing.yaml`) |
-| Adapters | Mock, OpenAI, Anthropic, Ollama |
+| Adapters | Mock, OpenAI, Anthropic, Groq, NVIDIA NIM, Ollama |
 | Fallback | Ranked list, then mock if `ALLOW_MOCK_FALLBACK=true` |
-| Logs | `request_logs` in Postgres |
+| Logs | `request_logs` in SQLite by default or PostgreSQL via `DATABASE_URL` |
 | Eval | `POST /v1/eval/run` replays `backend/fixtures/eval_prompts.json` under both policies |
 
 ## API
@@ -56,6 +56,7 @@ Full stack: `docker compose up --build`.
 - `GET /v1/stats/by-model` / `by-task`
 - `GET /v1/requests`
 - `POST /v1/eval/run`
+- `GET /v1/eval/latest`
 - `GET /v1/models` / `GET /v1/rank?task_type=code`
 
 ## Tests
